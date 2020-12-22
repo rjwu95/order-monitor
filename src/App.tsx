@@ -1,26 +1,33 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { Monitor, PlayButton } from "./components";
+import { useInterval } from "./hooks/useInterval";
 
-function App() {
+import "./sass/main.scss";
+
+const App = () => {
+  const [success, setSuccess] = useState(0);
+  const [failure, setFailure] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  useInterval(
+    () => {
+      setSuccess((preSuccess) => preSuccess + Math.floor(Math.random() * 100));
+      setFailure((preFailure) => preFailure + Math.floor(Math.random() * 2));
+    },
+    isPlaying ? 200 : null
+  );
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <h1>Order Monitor</h1>
       </header>
+      <main>
+        <Monitor success={success} failure={failure} />
+        <PlayButton isPlaying={isPlaying} setIsPlaying={setIsPlaying} />
+      </main>
     </div>
   );
-}
+};
 
 export default App;
