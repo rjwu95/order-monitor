@@ -23,14 +23,14 @@ const mapDispatchToProps = {
   toggleMonitoring,
 };
 
-const App = ({
+const App: React.FC<AppProps> = ({
   success,
   failure,
   monitoring,
   fetchSuccess,
   fetchFailure,
   toggleMonitoring,
-}: AppProps) => {
+}) => {
   useInterval(
     () => {
       fetchSuccess();

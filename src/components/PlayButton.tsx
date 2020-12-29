@@ -5,7 +5,10 @@ interface PlayButtonProps {
   setIsPlaying: Dispatch<SetStateAction<boolean>>;
 }
 
-export const PlayButton = ({ isPlaying, setIsPlaying }: PlayButtonProps) => {
+export const PlayButton: React.FC<PlayButtonProps> = ({
+  isPlaying,
+  setIsPlaying,
+}) => {
   return (
     <div>
       <button

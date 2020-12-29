@@ -10,7 +10,7 @@ interface ItemProps {
   unit?: string;
 }
 
-const Item = ({ label, value, unit }: ItemProps) => {
+const Item: React.FC<ItemProps> = ({ label, value, unit }) => {
   return (
     <div className="item">
       <p>{label}</p>
@@ -22,7 +22,7 @@ const Item = ({ label, value, unit }: ItemProps) => {
   );
 };
 
-export const Monitor = ({ success, failure }: MonitorProps) => {
+export const Monitor: React.FC<MonitorProps> = ({ success, failure }) => {
   const errorRate = useMemo(
     () =>
       failure > 0 ? ((failure / (success + failure)) * 100).toFixed(2) : "0",
