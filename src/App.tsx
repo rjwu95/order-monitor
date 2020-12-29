@@ -1,20 +1,42 @@
-import React, { useState } from "react";
+import React from "react";
 import { Monitor, PlayButton } from "./components";
 import { useInterval } from "./hooks/useInterval";
+import { connect } from "react-redux";
+import { fetchSuccess, fetchFailure, toggleMonitoring } from "./actions";
+import { StoreState } from "./types";
 
 import "./sass/main.scss";
 
-const App = () => {
-  const [success, setSuccess] = useState(0);
-  const [failure, setFailure] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
+interface AppProps {
+  success: number;
+  failure: number;
+  monitoring: boolean;
+  fetchSuccess(): void;
+  fetchFailure(): void;
+  toggleMonitoring(): void;
+}
 
+const mapStateToProps = (state: StoreState) => state;
+const mapDispatchToProps = {
+  fetchSuccess,
+  fetchFailure,
+  toggleMonitoring,
+};
+
+const App = ({
+  success,
+  failure,
+  monitoring,
+  fetchSuccess,
+  fetchFailure,
+  toggleMonitoring,
+}: AppProps) => {
   useInterval(
     () => {
-      setSuccess((preSuccess) => preSuccess + Math.floor(Math.random() * 100));
-      setFailure((preFailure) => preFailure + Math.floor(Math.random() * 2));
+      fetchSuccess();
+      fetchFailure();
     },
-    isPlaying ? 200 : null
+    monitoring ? 200 : null
   );
 
   return (
@@ -24,10 +46,10 @@ const App = () => {
       </header>
       <main>
         <Monitor success={success} failure={failure} />
-        <PlayButton isPlaying={isPlaying} setIsPlaying={setIsPlaying} />
+        <PlayButton isPlaying={monitoring} setIsPlaying={toggleMonitoring} />
       </main>
     </div>
   );
 };
 
-export default App;
+export default connect(mapStateToProps, mapDispatchToProps)(App);
