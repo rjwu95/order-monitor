@@ -1,9 +1,5 @@
-import { CommandAction } from "../actions";
-import {
-  FETCH_FAILURE,
-  FETCH_SUCCESS,
-  TOGGLE_MONITORING,
-} from "../actions/action-type";
+import { ActionType, getType } from "typesafe-actions";
+import * as Actions from "../actions";
 import { StoreState } from "../types";
 
 const initialState = {
@@ -14,22 +10,22 @@ const initialState = {
 
 const rootReducer = (
   state: StoreState = initialState,
-  action: CommandAction
+  action: ActionType<typeof Actions>
 ): StoreState => {
   switch (action.type) {
-    case FETCH_SUCCESS:
+    case getType(Actions.fetchSuccess):
       return {
         ...state,
         success: state.success + Math.floor(Math.random() * 100),
       };
 
-    case FETCH_FAILURE:
+    case getType(Actions.fetchFailure):
       return {
         ...state,
         failure: state.failure + Math.floor(Math.random() * 2),
       };
 
-    case TOGGLE_MONITORING:
+    case getType(Actions.toggleMonitoring):
       return {
         ...state,
         monitoring: !state.monitoring,
